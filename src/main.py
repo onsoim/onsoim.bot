@@ -1,4 +1,5 @@
 
+from aiocron        import crontab
 from discord.ext    import commands
 
 
@@ -17,17 +18,19 @@ class Windows:
 
 def main():
 
-    print("Starting @onsoim.bot")
-    bot = commands.Bot(command_prefix='!')
-
     import platform
     os = eval(platform.system())()
+
+    print(f"Starting @onsoim.bot from {platform.system()}")
+    bot = commands.Bot(command_prefix='!')
 
     import json
     with open('res/channel.json') as f: channel_id = json.load(f)[os.mode]
 
+    # @crontab('* * * * *')
     @bot.command()
-    async def ping(ctx):
+    async def ping(ctx = False):
+        ctx = ctx if ctx else bot.get_channel(channel_id['test'])
         await ctx.send("pong")
 
     import config

@@ -1,1 +1,2 @@
+aiocron==1.7
 discord==1.7.3
