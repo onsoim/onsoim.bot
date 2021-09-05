@@ -2,6 +2,8 @@
 from aiocron        import crontab
 from discord.ext    import commands
 
+import discord
+
 
 class Darwin:
     def __init__(self):
@@ -26,6 +28,23 @@ def main():
 
     import json
     with open('res/channel.json') as f: channel_id = json.load(f)[os.mode]
+
+    @crontab('0 * * * *')
+    async def every_hour(ctx = False):
+        # gss_notice_update
+        ctx = ctx if ctx else bot.get_channel(channel_id['gss-notice'])
+
+        from scraper.GSSWatchdog import GSS
+
+        new = GSS().get_new()
+        for m in new['top_notices'] + new['notices']:
+            embed = discord.Embed(
+                title   = m['Title'],
+                url     = m['href']
+            )
+            embed.set_author(name = m['Writer'])
+
+            await ctx.send(embed=embed)
 
     # @crontab('* * * * *')
     @bot.command()
