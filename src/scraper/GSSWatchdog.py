@@ -1,6 +1,7 @@
 
 import json
 
+
 class GSS:
     def __init__(self):
         self.fName      = 'data/notice.json'
