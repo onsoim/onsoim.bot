@@ -17,8 +17,10 @@ class GSS:
         prev_top_notices= Jnotice['top-notices']
         last_notice_num = int(next(iter(prev_notices))) if prev_notices else 0
 
-        import requests
         from bs4 import BeautifulSoup
+        from REQUESTS import REQUESTS
+        requests = REQUESTS()
+
         trs = BeautifulSoup(
             requests.get(f'{url}?articleLimit=30').text,
             'html.parser'
