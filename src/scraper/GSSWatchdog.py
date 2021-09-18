@@ -4,12 +4,7 @@ import json
 
 class GSS:
     def __init__(self):
-        self.fName      = 'data/notice.json'
-        self.init       = {
-            "url": "https://scs.korea.ac.kr/ime/commu/notice.do",
-            "top-notices": [],
-            "notices": {}
-        }
+        self.dName      = 'data/notice.json'
 
         Jnotice         = self.get_json()
         url             = Jnotice['url']
@@ -60,17 +55,11 @@ class GSS:
         return self.new
 
     def get_json(self):
-        import os
-
-        if not os.path.isfile(self.fName):
-            self.set_json(self.init)
-            return self.init
-
-        with open(self.fName) as f:
+        with open(self.dName) as f:
             return json.load(f)
  
     def set_json(self, data):
-        with open(self.fName, "w") as f:
+        with open(self.dName, "w") as f:
             json.dump(
                 data,
                 f,
