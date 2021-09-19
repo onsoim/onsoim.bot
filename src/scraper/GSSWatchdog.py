@@ -1,8 +1,8 @@
 
-import json
+from SCRAPER import SCRAPER
 
 
-class GSS:
+class GSS(SCRAPER):
     def __init__(self):
         self.dName      = 'data/notice.json'
 
@@ -50,22 +50,6 @@ class GSS:
             'top_notices': [ x for x in top_notices if x not in prev_top_notices ],
             'notices': new
         }
-
-    def get_new(self):
-        return self.new
-
-    def get_json(self):
-        with open(self.dName) as f:
-            return json.load(f)
- 
-    def set_json(self, data):
-        with open(self.dName, "w") as f:
-            json.dump(
-                data,
-                f,
-                indent=4,
-                ensure_ascii=False
-            )
 
     def test(self):
         msg = []

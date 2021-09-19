@@ -1,8 +1,8 @@
 
-import json
+from SCRAPER import SCRAPER
 
 
-class x3F:
+class x3F(SCRAPER):
     def __init__(self):
         self.dName      = 'data/0x3F.json'
 
@@ -42,19 +42,6 @@ class x3F:
 
                         Jx3F['lists'][p[0]] = l
             self.set_json(Jx3F)
-
-    def get_json(self):
-        with open(self.dName) as f:
-            return json.load(f)
-
-    def set_json(self, data):
-        with open(self.dName, "w") as f:
-            json.dump(
-                data,
-                f,
-                indent=4,
-                ensure_ascii=False
-            )
 
 
 if __name__ == "__main__":
