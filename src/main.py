@@ -46,6 +46,17 @@ def main():
 
             await ctx.send(embed=embed)
 
+        # 0x3F_update
+        ctx = ctx if ctx else bot.get_channel(channel_id['0x3f'])
+
+        from scraper.x3F import x3F
+
+        msg = ""
+        news = x3F().get_new()
+        for n in news:
+            msg += f'{n}\n{news[n]}\n'
+        await ctx.send(msg)
+
     # @crontab('* * * * *')
     @bot.command()
     async def ping(ctx = False):

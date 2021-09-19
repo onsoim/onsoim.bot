@@ -21,26 +21,29 @@ class x3F(SCRAPER):
                 'html.parser'
             ).select('a')
 
+            self.new = {}
             for p in [
                 [ s.text.strip() for s in _.select('strong') ]
                     for _ in a if len(_.select('strong')) > 1 ]:
                 index = p[-1][:-1]
                 if index != "PV":
+                    name = p[0]
                     l = {
                         'S': 'On going',
                         'L': 0,
                         'U': []
-                    } if not p[0] in lists else lists[p[0]]
+                    } if not name in lists else lists[name]
 
                     index = int(index)
                     if l['L'] != index:
+                        self.new[name] = [ i + 1 for i in range(l['L'], index) ]
                         l['U'] = list(set(
-                            l['U'] + [ i + 1 for i in range(l['L'], index) ]
+                            l['U'] + self.new[name]
                         ))
                         l['L'] = index
                         if len(p) == 3: l['S'] = p[1]
 
-                        Jx3F['lists'][p[0]] = l
+                        Jx3F['lists'][name] = l
             self.set_json(Jx3F)
 
 
