@@ -63,6 +63,11 @@ def main():
         ctx = ctx if ctx else bot.get_channel(channel_id['test'])
         await ctx.send("pong")
 
+    @bot.command()
+    async def x3F(ctx, *args):
+        from command.x3F import x3F
+        await ctx.send(x3F().commands(args))
+
     import config
     bot.run(config.DISCORD_TOKEN)
 
