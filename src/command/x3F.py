@@ -13,6 +13,7 @@ class x3F:
         if len(args) ==  0 : return "No arguments"
         elif args[0] == 'd': return self.delete(int(args[1]))
         elif args[0] == 'l': return self.get_list()
+        elif args[0] == 'u': return self.get_unwatched()
         else: return args
 
     def delete(self, index):
@@ -41,6 +42,16 @@ class x3F:
                 indent=4,
                 ensure_ascii=False
             )
+
+    def get_unwatched(self):
+        msg = ""
+        ls = self.Jx3F['lists']
+        for l in ls:
+            if len(ls[l]['U']):
+                msg += f'**{l}**\n> '
+                msg += "화\n > ".join(map(str,ls[l]['U']))
+                msg += "화\n\n"
+        return msg
 
 
 if __name__ == "__main__":
