@@ -34,7 +34,7 @@ def main():
         # gss_notice_update
         ctx = ctx if ctx else bot.get_channel(channel_id['gss-notice'])
 
-        from scraper.GSSWatchdog import GSS
+        from command.scraper.GSSWatchdog import GSS
 
         new = GSS().get_new()
         for m in new['top_notices'] + new['notices']:
@@ -49,7 +49,7 @@ def main():
         # 0x3F_update
         ctx = ctx if ctx else bot.get_channel(channel_id['0x3f'])
 
-        from scraper.x3F import x3F
+        from command.scraper.x3F import x3F
 
         msg = ""
         news = x3F().get_new()
@@ -68,8 +68,8 @@ def main():
         from command.x3F import x3F
         await ctx.send(x3F().commands(args))
 
-    import config
-    bot.run(config.DISCORD_TOKEN)
+    import util.config
+    bot.run(util.config.DISCORD_TOKEN)
 
 
 if __name__ == "__main__":
