@@ -1,6 +1,6 @@
 #!/bin/sh
 
-tor &
+tor >> log/$(date +"%Y-%m-%d").log &
 # curl --socks5-hostname localhost:9050 ifconfig.me
 while [ `netstat -ant | grep 9050 | wc -l` -eq 0 ]
 do

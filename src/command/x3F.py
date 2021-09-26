@@ -14,6 +14,7 @@ class x3F:
         elif args[0] == 'd': return self.delete(int(args[1]))
         elif args[0] == 'l': return self.get_list()
         elif args[0] == 'u': return self.get_unwatched()
+        elif args[0] == 'w': return self.set_watched(int(args[1]), int(args[2]))
         else: return args
 
     def delete(self, index):
@@ -34,6 +35,18 @@ class x3F:
             msg += f'> {index}. {l}\n'
         return msg[:-1]
 
+    def get_unwatched(self):
+        msg, index = "", 0
+        ls = self.Jx3F['lists']
+        for l in ls:
+            if len(ls[l]['U']):
+                index += 1
+                msg += f'**{index}. {l}**\n'
+                for ep in ls[l]['U']:
+                    msg += f'> EP.{ep}\n'
+                msg += '\n'
+        return msg[:-1]
+
     def set_json(self, data):
         with open(self.dName, "w") as f:
             json.dump(
@@ -43,15 +56,16 @@ class x3F:
                 ensure_ascii=False
             )
 
-    def get_unwatched(self):
-        msg = ""
-        ls = self.Jx3F['lists']
-        for l in ls:
-            if len(ls[l]['U']):
-                msg += f'**{l}**\n> '
-                msg += "화\n > ".join(map(str,ls[l]['U']))
-                msg += "화\n\n"
-        return msg
+    def set_watched(self, index = -1, ep = -1):
+        res, i = "Fail", 0
+        for l in self.Jx3F['lists']:
+            i += 1
+            if i == index:
+                self.Jx3F['lists'][l]['U'].remove(ep)
+                self.set_json(self.Jx3F)
+                res = "Success"
+                break
+        return f"**[{res}] to set {l} EP.{ep} watched**\n{self.get_unwatched()}"
 
 
 if __name__ == "__main__":
