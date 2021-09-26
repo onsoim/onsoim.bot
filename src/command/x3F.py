@@ -11,22 +11,11 @@ class x3F:
 
     def commands(self, args):
         if len(args) ==  0 : return "No arguments"
-        elif args[0] == 'd': return self.delete(int(args[1]))
+        elif args[0] == 'd': return self.set_deleted(int(args[1]))
         elif args[0] == 'l': return self.get_list()
         elif args[0] == 'u': return self.get_unwatched()
         elif args[0] == 'w': return self.set_watched(int(args[1]), int(args[2]))
         else: return args
-
-    def delete(self, index):
-        res, i = "Fail", 0
-        for l in self.Jx3F['lists']:
-            i += 1
-            if i == index:
-                self.Jx3F['lists'].pop(l)
-                self.set_json(self.Jx3F)
-                res, index = "Success", l
-                break
-        return f"{self.get_list()}\n**[{res}] to delete \"{index}\"**"
 
     def get_list(self):
         msg, index = "", 0
@@ -46,6 +35,17 @@ class x3F:
                     msg += f'> EP.{ep}\n'
                 msg += '\n'
         return msg[:-1]
+
+    def set_deleted(self, index):
+        res, i = "Fail", 0
+        for l in self.Jx3F['lists']:
+            i += 1
+            if i == index:
+                self.Jx3F['lists'].pop(l)
+                self.set_json(self.Jx3F)
+                res, index = "Success", l
+                break
+        return f"{self.get_list()}\n**[{res}] to delete \"{index}\"**"
 
     def set_json(self, data):
         with open(self.dName, "w") as f:
