@@ -31,7 +31,8 @@ class x3F(SCRAPER):
                     l = {
                         'S': 'On going',
                         'L': 0,
-                        'U': []
+                        'U': [],
+                        'W': {}
                     } if not name in lists else lists[name]
 
                     index = int(index)

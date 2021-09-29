@@ -14,7 +14,7 @@ class x3F:
         elif args[0] == 'd': return self.set_deleted(int(args[1]))
         elif args[0] == 'l': return self.get_list()
         elif args[0] == 'u': return self.get_unwatched()
-        elif args[0] == 'w': return self.set_watched(int(args[1]), int(args[2]))
+        elif args[0] == 'w': return self.set_watched(args[1:])
         else: return args
 
     def get_list(self):
@@ -56,16 +56,36 @@ class x3F:
                 ensure_ascii=False
             )
 
-    def set_watched(self, index = -1, ep = -1):
-        res, i = "Fail", 0
-        for l in self.Jx3F['lists']:
-            i += 1
-            if i == index:
-                self.Jx3F['lists'][l]['U'].remove(ep)
-                self.set_json(self.Jx3F)
-                res = "Success"
-                break
-        return f"**[{res}] to set {l} EP.{ep} watched**\n{self.get_unwatched()}"
+    def set_watched(self, args):
+        lists = self.Jx3F['lists']
+
+        if len(args) != 2:
+            msg = ""
+            for l in lists:
+                W = lists[l]['W']
+                if len(W):
+                    msg += f'{l}\n'
+                    for ep in W:
+                        msg += f'> EP.{ep}\n> =TEXTJOIN(", ", "True", TEXT(DATE({W[ep][0]},{W[ep][1]},{W[ep][2]}),"yyyy/mm/dd/[$-ko-KR]ddd"))\n'
+                    msg += '\n'
+            return msg
+        else:
+            index, ep = int(args[0]), int(args[1])
+            res, i = "Fail", 0
+            for l in lists:
+                U = lists[l]['U']
+                if len(U):
+                    i += 1
+                    if i == index:
+                        if ep in U:
+                            U.remove(ep)
+                            from datetime import date
+                            today = date.today()
+                            lists[l]['W'][str(ep)] = [today.year, today.month, today.day]
+                            self.set_json(self.Jx3F)
+                            res = "Success"
+                        break
+            return f"**[{res}] to set {l} EP.{ep} watched**\n{self.get_unwatched()}"
 
 
 if __name__ == "__main__":
