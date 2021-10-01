@@ -1,5 +1,5 @@
 
-from SCRAPER import SCRAPER
+from command.scraper.SCRAPER import SCRAPER
 
 
 class x3F(SCRAPER):
@@ -10,7 +10,7 @@ class x3F(SCRAPER):
         url             = Jx3F['url']
         lists           = Jx3F['lists']
 
-        from REQUESTS import REQUESTS
+        from command.scraper.REQUESTS import REQUESTS
         requests = REQUESTS()
 
         res = requests.get(f'{url}/airing')

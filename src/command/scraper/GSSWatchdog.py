@@ -1,5 +1,5 @@
 
-from SCRAPER import SCRAPER
+from command.scraper.SCRAPER import SCRAPER
 
 
 class GSS(SCRAPER):
@@ -13,7 +13,7 @@ class GSS(SCRAPER):
         last_notice_num = int(next(iter(prev_notices))) if prev_notices else 0
 
         from bs4 import BeautifulSoup
-        from REQUESTS import REQUESTS
+        from command.scraper.REQUESTS import REQUESTS
         requests = REQUESTS()
 
         trs = BeautifulSoup(
