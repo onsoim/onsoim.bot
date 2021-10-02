@@ -30,9 +30,9 @@ def main():
     with open('res/channel.json') as f: channel_id = json.load(f)[os.mode]
 
     @crontab('0 * * * *')
-    async def every_hour(ctx = False):
+    async def every_hour():
         # gss_notice_update
-        ctx = ctx if ctx else bot.get_channel(channel_id['gss-notice'])
+        ctx_GSS = bot.get_channel(channel_id['gss-notice']) 
 
         from command.scraper.GSSWatchdog import GSS
 
@@ -44,18 +44,16 @@ def main():
             )
             embed.set_author(name = m['Writer'])
 
-            await ctx.send(embed=embed)
+            await ctx_GSS.send(embed=embed)
 
         # 0x3F_update
-        ctx = ctx if ctx else bot.get_channel(channel_id['0x3f'])
-
         from command.scraper.x3F import x3F
 
         msg = ""
         news = x3F().get_new()
         for n in news:
             msg += f'{n}\n{news[n]}\n'
-        await ctx.send(msg)
+        await bot.get_channel(channel_id['0x3f']).send(msg)
 
     # @crontab('* * * * *')
     @bot.command()
