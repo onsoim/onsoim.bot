@@ -53,7 +53,7 @@ def main():
         news = x3F().get_new()
         for n in news:
             msg += f'{n}\n{news[n]}\n'
-        await bot.get_channel(channel_id['0x3f']).send(msg)
+        if msg: await bot.get_channel(channel_id['0x3f']).send(msg)
 
     # @crontab('* * * * *')
     @bot.command()
