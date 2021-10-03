@@ -21,14 +21,19 @@ class x3F(SCRAPER):
                 'html.parser'
             ).select('a')
 
+            from command.scraper.HANGEUL import HANGEUL
+
             self.new = {}
             for p in [
                 [ s.text.strip() for s in _.select('strong') ]
                     for _ in a if len(_.select('strong')) > 1 ]:
                 index = p[-1][:-1]
                 if index != "PV":
-                    name = p[0]
+                    name = ''.join([
+                        i[0] for i in HANGEUL().seperate_jamo(p[0])
+                    ])
                     l = {
+                        'F': p[0],
                         'S': 'On going',
                         'L': 0,
                         'U': [],
