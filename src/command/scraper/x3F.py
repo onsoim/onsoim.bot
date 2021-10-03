@@ -21,7 +21,7 @@ class x3F(SCRAPER):
                 'html.parser'
             ).select('a')
 
-            from command.scraper.HANGEUL import HANGEUL
+            from util.HANGEUL import HANGEUL
 
             self.new = {}
             for p in [
