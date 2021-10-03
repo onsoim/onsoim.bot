@@ -57,12 +57,12 @@ class x3F:
             )
 
     def set_watched(self, args):
-        lists = self.Jx3F['lists']
+        ls = self.Jx3F['lists']
 
         if len(args) != 2:
             msg = ""
-            for l in lists:
-                W = lists[l]['W']
+            for l in ls:
+                W = ls[l]['W']
                 if len(W):
                     msg += f'{l}\n'
                     for ep in W:
@@ -72,8 +72,8 @@ class x3F:
         else:
             index, ep = int(args[0]), int(args[1])
             res, i = "Fail", 0
-            for l in lists:
-                U = lists[l]['U']
+            for l in ls:
+                U = ls[l]['U']
                 if len(U):
                     i += 1
                     if i == index:
@@ -81,7 +81,7 @@ class x3F:
                             U.remove(ep)
                             from datetime import date
                             today = date.today()
-                            lists[l]['W'][str(ep)] = [today.year, today.month, today.day]
+                            ls[l]['W'][str(ep)] = [today.year, today.month, today.day]
                             self.set_json(self.Jx3F)
                             res = "Success"
                         break
