@@ -10,12 +10,18 @@ class x3F:
             self.Jx3F = json.load(f)
 
     def commands(self, args):
-        if len(args) ==  0 : return "No arguments"
-        elif args[0] == 'd': return self.set_deleted(int(args[1]))
-        elif args[0] == 'l': return self.get_list()
-        elif args[0] == 'u': return self.get_unwatched()
-        elif args[0] == 'w': return self.set_watched(args[1:])
-        else: return args
+        if len(args) ==  0 : msg = "No arguments"
+        elif args[0] == 'd': msg = self.set_deleted(int(args[1]))
+        elif args[0] == 'l': msg = self.get_list()
+        elif args[0] == 'u': msg = self.get_unwatched()
+        elif args[0] == 'w': msg = self.set_watched(args[1:])
+        else: msg = args
+
+        if not msg:
+            msg = "[*] Empty list"
+        elif len(msg) > 4000:
+            msg = "[*] Too large message"
+        return msg
 
     def get_list(self):
         msg, index = "", 0
@@ -28,11 +34,14 @@ class x3F:
         msg, index = "", 0
         ls = self.Jx3F['lists']
         for l in ls:
-            if len(ls[l]['U']):
+            U = ls[l]['U']
+            if len(U):
                 index += 1
                 msg += f'**{index}. {l}**\n'
-                for ep in ls[l]['U']:
-                    msg += f'> EP.{ep}\n'
+                msg += f'> **EP.{U[0]}**\n'
+                if len(U) != 1:
+                    msg += f'> **~**\n'
+                    msg += f'> **EP.{U[-1]}**\n'
                 msg += '\n'
         return msg[:-1]
 

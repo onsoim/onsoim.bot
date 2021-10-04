@@ -47,13 +47,13 @@ def main():
             await ctx_GSS.send(embed=embed)
 
         # 0x3F_update
+        ctx_0x3F = bot.get_channel(channel_id['0x3f'])
+
         from command.scraper.x3F import x3F
 
-        msg = ""
         news = x3F().get_new()
         for n in news:
-            msg += f'{n}\n{news[n]}\n'
-        if msg: await bot.get_channel(channel_id['0x3f']).send(msg)
+            await ctx_0x3F.send(f'> {n}\n> {news[n]}')
 
     # @crontab('* * * * *')
     @bot.command()
